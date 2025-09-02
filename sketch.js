@@ -41,12 +41,18 @@ function draw(){
     arrowRight.show();
     arrowUp.show();
     arrowDown.show();
-    if (random(0,2) >= 1.8){
+    if (random(0,2) >= 1.99){
         dot = new Note(windowWidth * 0.48, 0);
         note_array.push(dot);
     }
-    dot.show();
-    dot.update();
+    for(let i = 0; i <= note_array.length - 1; i++){
+        note_array[i].show();
+        note_array[i].update();
+        if (note_array[i].dead()){
+            note_array[i].pop();
+        }
+    }
+    
     reset();
 }
 
@@ -142,5 +148,11 @@ class Note{
     }
     update(){
         this.y += 1;
+    }
+
+    dead(){
+        if (this.y === aspectH) {
+            return true;
+        }
     }
 }
