@@ -1,7 +1,7 @@
 let aspectH;
 let catimgup, catimgdown, catimgleft, catimgright, catidle;
 let arrowr, arrowl, arrowu, arrowd;
-let obstacles = [];
+let note_array = [];
 
 function preload() {
     catimgup = loadImage("cat dance up.png");
@@ -31,7 +31,6 @@ function setup() {
     arrowLeft = new Control(0, aspectH * 0.75, windowWidth * 0.15, windowWidth * 0.15, "left");
     arrowUp = new Control(windowWidth * 0.13, aspectH * 0.75, windowWidth * 0.15, windowWidth * 0.15, "up");
     arrowDown = new Control(windowWidth * 0.26, aspectH * 0.75, windowWidth * 0.15, windowWidth * 0.15, "down");
-    
 }
 
 function draw(){
@@ -42,9 +41,13 @@ function draw(){
     arrowRight.show();
     arrowUp.show();
     arrowDown.show();
+    if (random(0,2) >= 1.8){
+        dot = new Note(windowWidth * 0.48, 0);
+        note_array.push(dot);
+    }
+    dot.show();
+    dot.update();
     reset();
-
-    genobstacle();
 }
 
 function keyPressed(){
@@ -66,6 +69,7 @@ function keyPressed(){
     }
 }
 
+
 function reset(){
     if (keyIsPressed === false){
         cat.imgchange(catimgdown);
@@ -73,23 +77,6 @@ function reset(){
         arrowRight.update(100);
         arrowUp.update(100)
         arrowDown.update(100);
-    }
-}
-
-function genobstacle(){
-    let obstacles_pos = [0, windowWidth * 0.13, windowWidth * 0.26, windowWidth * 0.4];
-
-    if (random(0,2) >= 9) {
-        generated_object = new Obstacle(random(obstacles_pos), 0, windowWidth * 0.15, windowWidth * 0.15);
-        obstacles.push(generated_object);
-    }
-
-    for (let i = 0; i <= obstacles.length - 1; i++){
-        obstacles[i].show();
-        obstacles[i].update();
-        if (obstacles[i].dead()) {
-            obstacles[i].pop();
-        }
     }
 }
 
@@ -143,33 +130,17 @@ class Control{
     }
 }  
 
-class Obstacle{
-    constructor(x, y, sizex, sizey){
+class Note{
+    constructor(x, y){
         this.x = x;
         this.y = y;
-        this.sizex = sizex;
-        this.sizey = sizey;
+        this.size = windowWidth * 0.05;
     }
+
     show(){
-        if (this.x === obstacles_pos[0]) {
-        image(arrowl, this.x, this.y, this.sizex, this.sizey);
-        }
-        else if (this.x === obstacles_pos[1]){
-        image(arrowu, this.x, this.y, this.sizex, this.sizey);
-        }
-        else if (this.x === obstacles_pos[2]) {
-            image(arrowd, this.x, this.y, this.sizex, this.sizey);
-        }
-        else if (this.x === obstacles_pos[3]) {
-            image(arrow, this.x, this.y, this.sizex, this.sizey);
-        }
+        circle(this.x, this.y, this.size);
     }
-
     update(){
-        this.y += windowWidth * 0.01;
-    }
-
-    dead(){
-
+        this.y += 1;
     }
 }
