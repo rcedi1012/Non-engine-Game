@@ -1,12 +1,18 @@
 let aspectH;
 let catimgup, catimgdown, catimgleft, catimgright, catidle;
+let arrowr, arrowl, arrowu, arrowd;
 
 function preload() {
     catimgup = loadImage("cat dance up.png");
     catimgdown = loadImage("cat dance down.png");
     catimgleft = loadImage("cat dance left.png");
     catimgright = loadImage("cat dance right.png");
-    catidle = loadImage("cat idle.png")
+    catidle = loadImage("cat idle.png");
+    arrowr = loadImage("arrow.png");
+    arrowl = loadImage("arrowL.png");
+    arrowu = loadImage("arrowU.png");
+    arrowd = loadImage("arrowD.png");
+
 }
 
 function windowResized() {
@@ -20,38 +26,50 @@ function setup() {
     canvas.position(0, windowHeight/2 - (height/2));
     canvas.parent("game");
     cat = new Cat(windowWidth / 2, 0, 9 * windowWidth/16, 9 * windowWidth / 16);
-    arrowL = new Control(windowWidth * 0.01, aspectH * 0.8, windowWidth * 0.05, aspectH * 0.7, windowWidth * 0.05, aspectH * 0.9);
-    arrowU = new Control(windowWidth * 0.08, aspectH * 0.8, windowWidth * 0.05, aspectH * 0.7, windowWidth * 0.05, aspectH * 0.9);
+    arrowRight = new Control(windowWidth * 0.2, aspectH * 0.8, windowWidth * 0.1, windowWidth * 0.1, "right");
+    arrowLeft = new Control(0, aspectH * 0.8, windowWidth * 0.1, windowWidth * 0.1, "left");
+    arrowUp = new Control(windowWidth * 0.07, aspectH * 0.8, windowWidth * 0.1, windowWidth * 0.1, "up");
+    arrowDown = new Control(windowWidth * 0.12, aspectH * 0.8, windowWidth * 0.1, windowWidth * 0.1, "down");
     
 }
 
 function draw(){
-    background(0);
+    background(255, 0,0);
 
     cat.show();
-    arrowL.show();
-    arrowU.show();
-    resetCatimg();
+    arrowLeft.show();
+    arrowRight.show();
+    arrowUp.show();
+    arrowDown.show();
+    reset();
 }
 
 function keyPressed(){
     if (keyCode === LEFT_ARROW && keyIsPressed){
         cat.imgchange(catimgleft);
+        arrowLeft.update(255);
     }
     else if (keyCode === RIGHT_ARROW && keyIsPressed) {
         cat.imgchange(catimgright);
+        arrowRight.update(255);
     }
     else if (keyCode === UP_ARROW && keyIsPressed){
         cat.imgchange(catimgup);
+        arrowUp.update(255);
     }
     else if (keyCode === DOWN_ARROW && keyIsPressed){
         cat.imgchange(catidle);
+        arrowDown.update(255);
     }
 }
 
-function resetCatimg(){
+function reset(){
     if (keyIsPressed === false){
         cat.imgchange(catimgdown);
+        arrowLeft.update(100);
+        arrowRight.update(100);
+        arrowUp.update(100)
+        arrowDown.update(100);
     }
 }
 
@@ -65,6 +83,7 @@ class Cat{
     }
 
     show(){
+        tint(255,255);
         image(this.currentimg, this.xpos, this.ypos, this.sizex, this.sizey);
     }
     
@@ -74,18 +93,32 @@ class Cat{
 }
 
 class Control{
-    constructor(x1, y1, x2, y2, x3, y3){
-        this.x1 = x1;
-        this.x2 = x2;
-        this.x3 = x3;
-        this.y1 = y1;
-        this.y2 = y2;
-        this.y3 = y3;
+    constructor(x, y, sizex, sizey, direction){
+        this.x = x;
+        this.y = y;
+        this.sizex = sizex;
+        this.sizey = sizey;
+        this.direction = direction;
         this.alpha = 100;
     }
 
     show(){
-        fill(255,0,0);
-        triangle(this.x1, this.y1, this.x2, this.y2, this.x3, this.y3);
+        tint(255, this.alpha);
+        if (this.direction === "right") {
+        image(arrowr, this.x, this.y, this.sizex, this.sizey);
+        }
+        else if (this.direction === "left"){
+        image(arrowl, this.x, this.y, this.sizex, this.sizey);
+        }
+        else if (this.direction === "up") {
+            image(arrowu, this.x, this.y, this.sizex, this.sizey);
+        }
+        else if (this.direction === "down") {
+            image(arrowd, this.x, this.y, this.sizex, this.sizey);
+        }
+    }
+
+    update(alpha){
+        this.alpha = alpha
     }
 }  
