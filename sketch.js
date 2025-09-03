@@ -45,7 +45,7 @@ function draw(){
     arrowUp.show();
     arrowDown.show();
     
-    if (random(0,2) >= 1.99){
+    if (random(0,2) >= 1.98){
         let stupid = notexpos();
         maxNote += 1;
         dots = new Note(stupid[0], 0, stupid[1]);
