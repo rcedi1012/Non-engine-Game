@@ -41,15 +41,16 @@ function draw(){
     arrowRight.show();
     arrowUp.show();
     arrowDown.show();
+    
     if (random(0,2) >= 1.99){
-        dot = new Note(windowWidth * 0.48, 0);
-        note_array.push(dot);
+        dots = new Note(windowWidth * 0.48, 0);
+        note_array.push(dots);
     }
     for(let i = 0; i <= note_array.length - 1; i++){
         note_array[i].show();
         note_array[i].update();
         if (note_array[i].dead()){
-            note_array[i].pop();
+            note_array.splice(i,1);
         }
     }
     
@@ -147,11 +148,11 @@ class Note{
         circle(this.x, this.y, this.size);
     }
     update(){
-        this.y += 1;
+        this.y += windowWidth * 0.001;
     }
 
     dead(){
-        if (this.y === aspectH) {
+        if (this.y > aspectH + 100) {
             return true;
         }
     }
