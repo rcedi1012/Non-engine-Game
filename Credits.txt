@@ -1,4 +1,6 @@
 Credits:
+Cat images attained from google search "grey dougie cat dance"
+arrow images attained from google search "arrow png"
 
 Where my code is:
 99% of my code is in the sketch.js file.
