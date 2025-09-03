@@ -1,0 +1,5 @@
+Controls:
+Up arrow
+down arrow
+right arrow
+left arrow

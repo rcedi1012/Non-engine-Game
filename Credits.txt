@@ -1,0 +1,5 @@
+Credits:
+
+Where my code is:
+99% of my code is in the sketch.js file.
+The last 1% is the html file, which just puts my game on a webpage.
