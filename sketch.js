@@ -6,6 +6,8 @@ let note_array = [];
 let maxNote = 0;
 let hitNote = 0;
 
+
+//preload images
 function preload() {
     catimgup = loadImage("cat dance up.png");
     catimgdown = loadImage("cat dance down.png");
@@ -16,7 +18,6 @@ function preload() {
     arrowl = loadImage("arrowL.png");
     arrowu = loadImage("arrowU.png");
     arrowd = loadImage("arrowD.png");
-
 }
 
 function windowResized() {
@@ -24,6 +25,7 @@ function windowResized() {
     canvas.resize((windowWidth / 1.78), windowHeight / 1.78);
 }
 
+//set up canvas and height of canvas, as well as main objects
 function setup() {
     aspectH = 9 * windowWidth/16;
     canvas = createCanvas(windowWidth, aspectH);
@@ -36,6 +38,8 @@ function setup() {
     arrowDown = new Control(windowWidth * 0.26, aspectH * 0.75, windowWidth * 0.15, windowWidth * 0.15, "down");
 }
 
+//show main objects and create the note obstacles
+
 function draw(){
     background(250, 184, 70);
 
@@ -45,7 +49,7 @@ function draw(){
     arrowUp.show();
     arrowDown.show();
     
-    if (random(0,2) >= 1.98){
+    if (random(0,2) >= 1.9){
         let stupid = notexpos();
         maxNote += 1;
         dots = new Note(stupid[0], 0, stupid[1]);
@@ -60,10 +64,11 @@ function draw(){
     }
     
     textSize(windowWidth * 0.05);
-    text("Score:" +  hitNote + "/" + maxNote, windowWidth * 0.75, aspectH * 0.08);
+    text("Score:" +  hitNote + "/" + maxNote, windowWidth * 0.6, aspectH * 0.08);
     reset();
 }
 
+//changes images when the key is pressed
 function keyPressed(){
     if (keyCode === LEFT_ARROW && keyIsPressed){
         cat.imgchange(catimgleft);
@@ -83,6 +88,7 @@ function keyPressed(){
     }
 }
 
+//randomly selects a direction and returns the xpos and direction string
 function notexpos(){
     noteDirectionArray = ["left", "right", "up", "down"]
     noteDirectionString = random(noteDirectionArray);
@@ -100,6 +106,7 @@ function notexpos(){
     }
 }
 
+//resets the images to how they were before
 function reset(){
     if (keyIsPressed === false){
         cat.imgchange(catimgdown);
@@ -110,6 +117,7 @@ function reset(){
     }
 }
 
+//cat class
 class Cat{
     constructor(xpos, ypos, sizex, sizey){
         this.xpos = xpos;
@@ -129,6 +137,7 @@ class Cat{
     }
 }
 
+//control arrow keys
 class Control{
     constructor(x, y, sizex, sizey, direction){
         this.x = x;
@@ -160,6 +169,7 @@ class Control{
     }
 }  
 
+//class for notes
 class Note{
     constructor(x, y, direction){
         this.x = x;
@@ -172,7 +182,7 @@ class Note{
         circle(this.x, this.y, this.size);
     }
     update(){
-        this.y += windowWidth * 0.01;
+        this.y += windowWidth * 0.006;
     }
 
     dead(){
