@@ -182,7 +182,7 @@ class Note{
         circle(this.x, this.y, this.size);
     }
     update(){
-        this.y += windowWidth * 0.006;
+        this.y += windowWidth * 0.004;
     }
 
     dead(){
