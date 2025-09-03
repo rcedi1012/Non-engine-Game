@@ -3,6 +3,9 @@ let catimgup, catimgdown, catimgleft, catimgright, catidle;
 let arrowr, arrowl, arrowu, arrowd;
 let note_array = [];
 
+let maxNote = 0;
+let hitNote = 0;
+
 function preload() {
     catimgup = loadImage("cat dance up.png");
     catimgdown = loadImage("cat dance down.png");
@@ -34,7 +37,7 @@ function setup() {
 }
 
 function draw(){
-    background(255, 0,0);
+    background(250, 184, 70);
 
     cat.show();
     arrowLeft.show();
@@ -43,7 +46,9 @@ function draw(){
     arrowDown.show();
     
     if (random(0,2) >= 1.99){
-        dots = new Note(windowWidth * 0.48, 0);
+        let stupid = notexpos();
+        maxNote += 1;
+        dots = new Note(stupid[0], 0, stupid[1]);
         note_array.push(dots);
     }
     for(let i = 0; i <= note_array.length - 1; i++){
@@ -54,6 +59,8 @@ function draw(){
         }
     }
     
+    textSize(windowWidth * 0.05);
+    text("Score:" +  hitNote + "/" + maxNote, windowWidth * 0.75, aspectH * 0.08);
     reset();
 }
 
@@ -76,6 +83,22 @@ function keyPressed(){
     }
 }
 
+function notexpos(){
+    noteDirectionArray = ["left", "right", "up", "down"]
+    noteDirectionString = random(noteDirectionArray);
+    if (noteDirectionString === "right"){
+        return [windowWidth * 0.48, noteDirectionString]
+    }
+    else if (noteDirectionString === "left") {
+        return [windowWidth * 0.08, noteDirectionString]
+    }
+    else if (noteDirectionString === "up") {
+        return [windowWidth * 0.205, noteDirectionString]
+    }
+    else if (noteDirectionString === "down") {
+        return [windowWidth * 0.335, noteDirectionString]
+    }
+}
 
 function reset(){
     if (keyIsPressed === false){
@@ -138,21 +161,38 @@ class Control{
 }  
 
 class Note{
-    constructor(x, y){
+    constructor(x, y, direction){
         this.x = x;
         this.y = y;
         this.size = windowWidth * 0.05;
+        this.direction = direction;
     }
 
     show(){
         circle(this.x, this.y, this.size);
     }
     update(){
-        this.y += windowWidth * 0.001;
+        this.y += windowWidth * 0.01;
     }
 
     dead(){
         if (this.y > aspectH + 100) {
+            return true;
+        }
+        else if (keyCode === LEFT_ARROW && keyIsPressed && this.direction === 'left' && this.y >= aspectH * 0.75){
+            hitNote += 1;
+            return true;
+        }
+        else if (keyCode === RIGHT_ARROW && keyIsPressed && this.direction === 'right' && this.y >= aspectH * 0.75){
+            hitNote += 1;
+            return true;
+        }
+        else if (keyCode === UP_ARROW && keyIsPressed && this.direction === 'up' && this.y >= aspectH * 0.75){
+            hitNote += 1;
+            return true;
+        }
+        else if (keyCode === DOWN_ARROW && keyIsPressed && this.direction === 'down' && this.y >= aspectH * 0.75){
+            hitNote += 1;
             return true;
         }
     }
